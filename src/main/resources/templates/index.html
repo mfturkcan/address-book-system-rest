@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Address Book System</title>
+</head>
+<body>
+    <ul>
+        <li>
+            - /api/auth:
+            <p>GET: /user -> Tokenı sorgular, kullanıcı adını dönderiyor.</p>
+            <p>POST: /login body:authrequest-> token dönderiyor.</p>
+            <p>POST: /register body:user-> token dönderiyor.</p>
+        </li>
+        <hr>
+        <li>
+            - /api/book_user:
+            <p>GET: /{id} -> user dönderiyor.</p>
+            <p>POST: body:user</p>
+            <p>PATCH: /{id} body:transferUser</p>
+            <p>DELETE: /{id}</p>
+        </li>
+        <hr>
+        <li>
+            - /api/search:
+            <p>GET: /name/{name} -> Ismi içeren kullanıcıları dönderiyor.</p>
+            <p>GET: /department/{department} -> Departmanı içeren kullanıcıyı dönderiyor.</p>
+        </li>
+        <hr>
+        <li>
+            - /api/timetable:
+            <p>GET: /{userId} -> userId ye bağlı olan timetable yapılarını dönderiyor.</p>
+            <p>POST: /{userId} body:timetable</p>
+            <p>PATCH: /{tableId} body:timetable</p>
+            <p>DELETE: /{userId}</p>
+        </li>
+    </ul>
+    <hr>
+    <ol>
+        <li>
+            authrequest = {username, password}
+        </li>
+        <li>user = {username, password, department, position, phoneNumber:integer, email, officeNo, timetableListesi}</li>
+        <li>transferUser = {username, department, position, phoneNumber:integer, email, officeNo}</li>
+        <li>timetable = {dayOfWeek:integer, hour, className}</li>
+    </ol>
+</body>
+</html>
