@@ -20,7 +20,7 @@ public class BookUserService {
 
     public boolean isUserExists(String username) {
         try{
-            var user = bookUserRepository.findByUsername(username).orElseThrow(() -> new Exception("User not found"));
+            BookUser user = bookUserRepository.findByUsername(username).orElseThrow(() -> new Exception("User not found"));
 
             return true;
         }

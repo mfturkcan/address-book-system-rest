@@ -57,10 +57,10 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse getUser(String jwt){
-        var response = new AuthenticationResponse();
+        AuthenticationResponse response = new AuthenticationResponse();
 
         try{
-            var username = jwtUtils.extractUsername(jwt);
+            String username = jwtUtils.extractUsername(jwt);
             response.setMessage(username);
             response.setJwt(jwt);
             response.setStatus(HttpStatus.ACCEPTED);
