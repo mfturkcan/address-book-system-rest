@@ -1,0 +1,4 @@
+FROM openjdk:17
+ADD target/address-book-system-rest.jar address-book-system-rest.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","address-book-system-rest.jar"]
