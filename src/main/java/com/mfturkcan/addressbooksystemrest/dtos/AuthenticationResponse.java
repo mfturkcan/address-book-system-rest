@@ -12,4 +12,6 @@ public class AuthenticationResponse {
     String jwt;
     Object message;
     HttpStatus status;
+    private String username;
+    private String role;
 }
