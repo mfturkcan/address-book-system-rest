@@ -2,8 +2,11 @@ package com.mfturkcan.addressbooksystemrest.controllers;
 
 import com.mfturkcan.addressbooksystemrest.dtos.AuthenticationResponse;
 import com.mfturkcan.addressbooksystemrest.dtos.BookUserDto;
+import com.mfturkcan.addressbooksystemrest.dtos.ControllerResponse;
 import com.mfturkcan.addressbooksystemrest.models.BookUser;
 import com.mfturkcan.addressbooksystemrest.repositories.BookUserRepository;
+import com.mfturkcan.addressbooksystemrest.services.BookUserService;
+import com.sun.jdi.event.ExceptionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +19,12 @@ import java.util.List;
 @RequestMapping("/api/book_user")
 public class BookUserController {
     private final BookUserRepository bookUserRepository;
+    private final BookUserService bookUserService;
 
     @Autowired
-    public BookUserController(BookUserRepository bookUserRepository){
+    public BookUserController(BookUserRepository bookUserRepository, BookUserService bookUserService){
         this.bookUserRepository = bookUserRepository;
+        this.bookUserService = bookUserService;
     }
 
     @GetMapping
@@ -37,7 +42,7 @@ public class BookUserController {
         }catch (Exception e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ControllerResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()));
         }
     }
 
@@ -50,35 +55,30 @@ public class BookUserController {
         }catch (Exception e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ControllerResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()));
         }
     }
 
     @PatchMapping(path = "{id}")
-    public ResponseEntity updateUser(@RequestBody BookUserDto bookUser, @PathVariable int id, Authentication authentication){
-        BookUser user = bookUserRepository.findByUsername(authentication.getName()).orElseThrow();
+    public ResponseEntity updateUser(@RequestBody BookUserDto bookUserDto, @PathVariable int id, Authentication authentication){
 
-        if(user.getId() == id || authentication.getAuthorities().contains("ROLE_HUMAN_RESOURCES")){
-            user.setDepartment(bookUser.getDepartment());
-            user.setEmail(bookUser.getEmail());
-            user.setName(bookUser.getName());
-            user.setUsername(bookUser.getUsername());
-            user.setOfficeNo(bookUser.getOfficeNo());
-            user.setPhoneNumber(bookUser.getPhoneNumber());
-            user.setPosition(bookUser.getPosition());
+        try{
+            BookUser user = bookUserService.findUserByUsername(authentication.getName());
 
-            bookUserRepository.save(user);
-            return ResponseEntity.ok().build();
+            if(authentication.getAuthorities().contains("ROLE_HUMAN_RESOURCES") || user.getId() == id){
+                bookUserService.updateUser(user, bookUserDto);
+                return ResponseEntity.ok().build();
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ControllerResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()));
         }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
-    // update user -> if has same id or human resource
 
     @DeleteMapping("{id}")
     public ResponseEntity removeBookUser(@PathVariable int id){
         bookUserRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-    // delete user -> if human resource
 }

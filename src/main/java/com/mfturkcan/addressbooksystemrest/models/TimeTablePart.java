@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 
 @Entity
 @Data
@@ -15,9 +16,10 @@ public class TimeTablePart {
     @Id @GeneratedValue
     private int id;
     // todo: make dayOfWeek integer
-    private String dayOfWeek;
-    private String hour;
+    private int dayOfWeek;
+    private LocalTime hour;
     private String className;
+    private String label;
 
     @JsonBackReference
     @ManyToOne

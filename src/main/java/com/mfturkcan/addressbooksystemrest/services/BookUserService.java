@@ -1,8 +1,11 @@
 package com.mfturkcan.addressbooksystemrest.services;
 
+import com.mfturkcan.addressbooksystemrest.dtos.BookUserDto;
 import com.mfturkcan.addressbooksystemrest.models.BookUser;
 import com.mfturkcan.addressbooksystemrest.repositories.BookUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,11 +38,29 @@ public class BookUserService {
         bookUserRepository.save(bookUser);
     }
 
+    public BookUser findUserByUsername (String username) throws Exception{
+        return  bookUserRepository.findByUsername(username).orElseThrow(() -> new Exception("User not found with username : "+ username));
+    }
+
     public List<BookUser> findUsersByDepartment(String department){
         return bookUserRepository.findByDepartmentIgnoreCaseContaining(department).orElse(new ArrayList<>());
     }
 
     public List<BookUser> findUsersByName(String name){
         return bookUserRepository.findByNameIgnoreCaseContaining(name).orElse(new ArrayList<>());
+    }
+
+    public BookUser updateUser(BookUser user, BookUserDto bookUserDto){
+        user.setDepartment(bookUserDto.getDepartment());
+        user.setEmail(bookUserDto.getEmail());
+        user.setName(bookUserDto.getName());
+        user.setUsername(bookUserDto.getUsername());
+        user.setOfficeNo(bookUserDto.getOfficeNo());
+        user.setPhoneNumber(bookUserDto.getPhoneNumber());
+        user.setPosition(bookUserDto.getPosition());
+
+        bookUserRepository.save(user);
+
+        return user;
     }
 }

@@ -2,6 +2,7 @@ package com.mfturkcan.addressbooksystemrest.controllers;
 
 import com.mfturkcan.addressbooksystemrest.dtos.AuthenticationRequest;
 import com.mfturkcan.addressbooksystemrest.dtos.AuthenticationResponse;
+import com.mfturkcan.addressbooksystemrest.dtos.ControllerResponse;
 import com.mfturkcan.addressbooksystemrest.models.BookUser;
 import com.mfturkcan.addressbooksystemrest.models.BookUserDetail;
 import com.mfturkcan.addressbooksystemrest.repositories.BookUserRepository;
@@ -43,7 +44,7 @@ public class AuthenticationController {
             return ResponseEntity.status(result.getStatus()).body(result);
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No token found!");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ControllerResponse(HttpStatus.UNAUTHORIZED.toString(), "No token found!"));
     }
 
     @PostMapping(path = "/login")
