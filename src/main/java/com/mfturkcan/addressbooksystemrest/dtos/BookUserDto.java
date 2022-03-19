@@ -14,6 +14,7 @@ public class BookUserDto {
     private int id;
     private String name;
     private String username;
+    private String role;
     private String department;
     private String position;
     private long phoneNumber;

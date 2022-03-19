@@ -23,7 +23,7 @@ public class BookUserDetail implements UserDetails {
 
     public BookUserDetail(BookUser bookUser){
         this.bookUser = bookUser;
-        this.authorityList.add(new SimpleGrantedAuthority("ROLE_" + bookUser.getDepartment().toUpperCase()));
+        this.authorityList.add(new SimpleGrantedAuthority("ROLE_" + bookUser.getRole().toUpperCase()));
     }
 
     @Override

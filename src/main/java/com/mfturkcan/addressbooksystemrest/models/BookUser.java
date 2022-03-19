@@ -22,6 +22,7 @@ public class BookUser {
     @Column(unique = true)
     private String username;
     private String password;
+    private String role;
     private String department;
     private String position;
     private long phoneNumber;

@@ -58,6 +58,7 @@ public class BookUserService {
         user.setOfficeNo(bookUserDto.getOfficeNo());
         user.setPhoneNumber(bookUserDto.getPhoneNumber());
         user.setPosition(bookUserDto.getPosition());
+        user.setRole(bookUserDto.getRole());
 
         bookUserRepository.save(user);
 
