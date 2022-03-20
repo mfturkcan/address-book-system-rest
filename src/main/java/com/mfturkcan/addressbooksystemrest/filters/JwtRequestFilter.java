@@ -79,7 +79,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             var map = new HashMap<String, String>();
             map.put("message", "JWT expired");
-            map.put("status", "401");
+            map.put("status", HttpStatus.UNAUTHORIZED.toString());
 
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -91,8 +91,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         catch (Exception e){
             var map = new HashMap<String, String>();
-            map.put("message", "JWT expired");
-            map.put("status", "404");
+            map.put("message", e.getMessage());
+            map.put("status", HttpStatus.BAD_REQUEST.toString());
 
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);

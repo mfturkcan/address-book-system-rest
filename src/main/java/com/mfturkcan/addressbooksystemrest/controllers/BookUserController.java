@@ -32,11 +32,11 @@ public class BookUserController {
         return bookUserRepository.findAll();
     }
 
-    @GetMapping(path = "{id}")
-    public ResponseEntity<?> getBookUser(@PathVariable int id){
+    @GetMapping(path = "{username}")
+    public ResponseEntity<?> getBookUser(@PathVariable String username){
         BookUser bookUser;
         try{
-            bookUser = bookUserRepository.findById(id).orElseThrow(()-> new Exception("User not found with id:"+ id));
+            bookUser = bookUserRepository.findByUsername(username).orElseThrow(()-> new Exception("User not found with username:"+ username));
 
             return ResponseEntity.ok(bookUser);
         }catch (Exception e){
@@ -59,13 +59,13 @@ public class BookUserController {
         }
     }
 
-    @PatchMapping(path = "{id}")
-    public ResponseEntity updateUser(@RequestBody BookUserDto bookUserDto, @PathVariable int id, Authentication authentication){
+    @PatchMapping(path = "{username}")
+    public ResponseEntity updateUser(@RequestBody BookUserDto bookUserDto, @PathVariable String username, Authentication authentication){
 
         try{
-            BookUser user = bookUserService.findUserByUsername(authentication.getName());
+            BookUser user = bookUserService.findUserByUsername(bookUserDto.getUsername());
 
-            if(authentication.getAuthorities().contains("ROLE_HUMAN_RESOURCES") || user.getId() == id){
+            if(authentication.getAuthorities().contains("ROLE_HUMAN_RESOURCES") || user.getUsername() == username){
                 bookUserService.updateUser(user, bookUserDto);
                 return ResponseEntity.ok().build();
             }
@@ -76,9 +76,9 @@ public class BookUserController {
         }
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity removeBookUser(@PathVariable int id){
-        bookUserRepository.deleteById(id);
+    @DeleteMapping("{username}")
+    public ResponseEntity removeBookUser(@PathVariable String username){
+        bookUserRepository.deleteByUsername(username);
         return ResponseEntity.ok().build();
     }
 }

@@ -15,4 +15,6 @@ public interface BookUserRepository extends JpaRepository<BookUser, Integer> {
 
 //    @Query("Select user from book_user user where user.name like %:name%")
     Optional<List<BookUser>> findByNameIgnoreCaseContaining(String name);
+
+    void deleteByUsername(String username);
 }

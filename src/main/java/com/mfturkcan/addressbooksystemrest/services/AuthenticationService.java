@@ -54,7 +54,7 @@ public class AuthenticationService {
         authenticationResponse.setJwt(jwt);
         authenticationResponse.setStatus(HttpStatus.OK);
         authenticationResponse.setUsername(authenticationRequest.getUsername());
-        authenticationResponse.setRole(userDetail.getAuthorities().stream().findFirst().toString());
+        authenticationResponse.setRole(userDetail.getAuthorities().stream().findFirst().get().toString());
         return authenticationResponse;
     }
 
@@ -65,10 +65,11 @@ public class AuthenticationService {
             String username = jwtUtils.extractUsername(jwt);
             final UserDetails userDetail = bookUserDetailService.loadUserByUsername(username);
 
-            response.setRole(userDetail.getAuthorities().stream().findFirst().toString());
+            response.setRole(userDetail.getAuthorities().stream().findFirst().get().toString());
+            response.setUsername(username);
             response.setMessage(username);
             response.setJwt(jwt);
-            response.setStatus(HttpStatus.ACCEPTED);
+            response.setStatus(HttpStatus.OK);
         }
         catch(ExpiredJwtException e){
             response.setMessage("Expired token");

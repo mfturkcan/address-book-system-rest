@@ -4,23 +4,11 @@ import com.mfturkcan.addressbooksystemrest.dtos.AuthenticationRequest;
 import com.mfturkcan.addressbooksystemrest.dtos.AuthenticationResponse;
 import com.mfturkcan.addressbooksystemrest.dtos.ControllerResponse;
 import com.mfturkcan.addressbooksystemrest.models.BookUser;
-import com.mfturkcan.addressbooksystemrest.models.BookUserDetail;
-import com.mfturkcan.addressbooksystemrest.repositories.BookUserRepository;
 import com.mfturkcan.addressbooksystemrest.services.AuthenticationService;
-import com.mfturkcan.addressbooksystemrest.services.BookUserDetailService;
 import com.mfturkcan.addressbooksystemrest.services.BookUserService;
-import com.mfturkcan.addressbooksystemrest.utils.JwtUtils;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,8 +24,13 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
+    @GetMapping
+    public String test(){
+        return "Test";
+    }
+
     @GetMapping(path = "/user")
-    public ResponseEntity<?> getUser(@RequestHeader("Authorization") String jwt){
+    public ResponseEntity<?> getUser(@RequestHeader(value = "Authorization", required = false) String jwt){
         if (jwt != null && jwt.startsWith("Bearer ")) {
             jwt = jwt.substring(7);
             var result = authenticationService.getUser(jwt);
