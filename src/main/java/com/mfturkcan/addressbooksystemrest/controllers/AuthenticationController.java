@@ -9,6 +9,7 @@ import com.mfturkcan.addressbooksystemrest.services.BookUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -47,6 +48,7 @@ public class AuthenticationController {
         return ResponseEntity.status(result.getStatus()).body(authenticationService.authenticateUser(authenticationRequest));
     }
 
+    @Transactional
     @PostMapping(path = "/register")
     public ResponseEntity<?> register(@RequestBody BookUser bookUser) throws Exception{
         boolean userExists = bookUserService.isUserExists(bookUser.getUsername());
