@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class BookUserController {
 
     // post user -> if human resource
     @PostMapping
+    @Transactional
     public ResponseEntity addUser(@RequestBody BookUser bookUser){
         try{
             bookUserRepository.save(bookUser);
@@ -59,13 +61,14 @@ public class BookUserController {
         }
     }
 
+    @Transactional
     @PatchMapping(path = "{username}")
-    public ResponseEntity updateUser(@RequestBody BookUserDto bookUserDto, @PathVariable String username, Authentication authentication){
+    public ResponseEntity updateUser(@RequestBody BookUser bookUserDto, @PathVariable String username, Authentication authentication){
 
         try{
             BookUser user = bookUserService.findUserByUsername(bookUserDto.getUsername());
-
-            if(authentication.getAuthorities().contains("ROLE_HUMAN_RESOURCES") || user.getUsername() == username){
+            if(authentication.getAuthorities().contains("ROLE_HUMAN_RESOURCES") || user.getUsername().equals(authentication.getName())){
+                System.out.println("change");
                 bookUserService.updateUser(user, bookUserDto);
                 return ResponseEntity.ok().build();
             }
@@ -77,6 +80,7 @@ public class BookUserController {
     }
 
     @DeleteMapping("{username}")
+    @Transactional
     public ResponseEntity removeBookUser(@PathVariable String username){
         bookUserRepository.deleteByUsername(username);
         return ResponseEntity.ok().build();

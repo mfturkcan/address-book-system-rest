@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional
 public interface BookUserRepository extends JpaRepository<BookUser, Integer> {
     Optional<BookUser> findByUsername(String username);
     Optional<List<BookUser>> findByDepartmentIgnoreCaseContaining(String department);
@@ -18,5 +17,6 @@ public interface BookUserRepository extends JpaRepository<BookUser, Integer> {
 //    @Query("Select user from book_user user where user.name like %:name%")
     Optional<List<BookUser>> findByNameIgnoreCaseContaining(String name);
 
+    @Transactional
     void deleteByUsername(String username);
 }

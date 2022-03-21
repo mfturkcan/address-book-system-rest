@@ -30,6 +30,6 @@ public class BookUser {
     private String officeNo;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "bookUser", cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "bookUser", cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH, CascadeType.REMOVE})
     private List<TimeTablePart> timeTable;
 }

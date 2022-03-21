@@ -50,7 +50,7 @@ public class BookUserService {
         return bookUserRepository.findByNameIgnoreCaseContaining(name).orElse(new ArrayList<>());
     }
 
-    public BookUser updateUser(BookUser user, BookUserDto bookUserDto){
+    public BookUser updateUser(BookUser user, BookUser bookUserDto){
         user.setDepartment(bookUserDto.getDepartment());
         user.setEmail(bookUserDto.getEmail());
         user.setName(bookUserDto.getName());
@@ -59,6 +59,7 @@ public class BookUserService {
         user.setPhoneNumber(bookUserDto.getPhoneNumber());
         user.setPosition(bookUserDto.getPosition());
         user.setRole(bookUserDto.getRole());
+        user.setTimeTable(bookUserDto.getTimeTable());
 
         bookUserRepository.save(user);
 
