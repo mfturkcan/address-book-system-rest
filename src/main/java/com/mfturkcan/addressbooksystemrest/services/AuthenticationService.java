@@ -53,7 +53,7 @@ public class AuthenticationService {
 
         authenticationResponse.setJwt(jwt);
         authenticationResponse.setStatus(HttpStatus.OK);
-        authenticationResponse.setUsername(authenticationRequest.getUsername());
+        authenticationResponse.setUsername(userDetail.getUsername());
         authenticationResponse.setRole(userDetail.getAuthorities().stream().findFirst().get().toString());
         return authenticationResponse;
     }

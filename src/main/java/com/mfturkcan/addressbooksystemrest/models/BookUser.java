@@ -25,7 +25,7 @@ public class BookUser {
     private String role;
     private String department;
     private String position;
-    private long phoneNumber;
+    private String phoneNumber;
     private String email;
     private String officeNo;
 
