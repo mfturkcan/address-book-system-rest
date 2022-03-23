@@ -15,10 +15,17 @@ import java.time.LocalTime;
 public class TimeTablePart {
     @Id @GeneratedValue
     private int id;
-    // todo: make dayOfWeek integer
+
+    @Column(nullable = false)
     private int dayOfWeek;
+
+    @Column(nullable = false)
     private LocalTime hour;
+
+    @Column(nullable = false)
     private String className;
+
+    @Column(nullable = false)
     private String label;
 
     @JsonBackReference

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 import java.util.List;
 
@@ -19,17 +18,28 @@ public class BookUser {
     private int id;
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String role;
+
+    @Column(nullable = false)
     private String department;
+
     private String position;
     private String phoneNumber;
+
+    @Column(nullable = false)
     private String email;
     private String officeNo;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "bookUser", cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "bookUser",
+            cascade = { CascadeType.ALL},
+            orphanRemoval = true) // removes child when it is not referenced from parent
     private List<TimeTablePart> timeTable;
 }

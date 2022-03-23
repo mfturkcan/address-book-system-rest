@@ -43,9 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/api/book_user").hasRole("HUMAN_RESOURCES")
-            .antMatchers(HttpMethod.PATCH, "/api/book_user").hasAnyRole("HUMAN_RESOURCES", "STUDENT", "EMPLOYEE")
-            .antMatchers("/api/timetable/**").hasAnyRole("HUMAN_RESOURCES", "STUDENT", "EMPLOYEE")
+            .antMatchers(HttpMethod.POST, "/api/book_user").hasRole("HUMAN RESOURCES")
+            .antMatchers(HttpMethod.PATCH, "/api/book_user").hasAnyRole("HUMAN RESOURCES", "STUDENT", "EMPLOYEE")
+            .antMatchers("/api/timetable/**").hasAnyRole("HUMAN RESOURCES", "STUDENT", "EMPLOYEE")
             .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
             .antMatchers("/api/auth/**").permitAll()
             .antMatchers("/api/search/**").permitAll()
@@ -66,7 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowCredentials(true);

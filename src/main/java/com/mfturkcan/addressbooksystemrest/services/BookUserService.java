@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class BookUserService {
         }
     }
 
+    @Transactional
     public void addUser(BookUser bookUser){
         bookUserRepository.save(bookUser);
     }
@@ -50,7 +52,7 @@ public class BookUserService {
         return bookUserRepository.findByNameIgnoreCaseContaining(name).orElse(new ArrayList<>());
     }
 
-    public BookUser updateUser(BookUser user, BookUser bookUserDto){
+    public void updateUser(BookUser user, BookUser bookUserDto){
         user.setDepartment(bookUserDto.getDepartment());
         user.setEmail(bookUserDto.getEmail());
         user.setName(bookUserDto.getName());
@@ -59,10 +61,11 @@ public class BookUserService {
         user.setPhoneNumber(bookUserDto.getPhoneNumber());
         user.setPosition(bookUserDto.getPosition());
         user.setRole(bookUserDto.getRole());
-        user.setTimeTable(bookUserDto.getTimeTable());
+
+        user.getTimeTable().clear();
+        user.getTimeTable().addAll(bookUserDto.getTimeTable());
+
 
         bookUserRepository.save(user);
-
-        return user;
     }
 }

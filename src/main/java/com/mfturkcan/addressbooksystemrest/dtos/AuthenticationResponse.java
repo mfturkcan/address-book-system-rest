@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse {
-    String jwt;
-    Object message;
-    HttpStatus status;
+    private String jwt;
+    private Object message;
+    private HttpStatus status;
     private String username;
     private String role;
 }
