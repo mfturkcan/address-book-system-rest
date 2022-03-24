@@ -54,7 +54,7 @@ public class AuthenticationController {
         boolean userExists = bookUserService.isUserExists(bookUser.getUsername());
 
         if(!userExists){
-            bookUserService.addUser(bookUser);
+            bookUserService.addBookUser(bookUser);
 
             var result = authenticationService.authenticateUser(
                     new AuthenticationRequest(bookUser.getUsername(), bookUser.getPassword()));

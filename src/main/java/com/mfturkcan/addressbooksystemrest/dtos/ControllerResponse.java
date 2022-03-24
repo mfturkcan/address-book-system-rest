@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ControllerResponse {
     private String status;
-    private String message;
+    private Object message;
 }
